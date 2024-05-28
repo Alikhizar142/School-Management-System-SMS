@@ -1,4 +1,4 @@
-# School-Management-System-SMS# School Management System (SMS)
+School Management System (SMS)
 
 ## Overview
 The School Management System (SMS) is a web-based application designed to manage school operations efficiently. This system streamlines tasks such as student enrollment, attendance tracking and grade management.
