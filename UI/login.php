@@ -55,7 +55,7 @@
         
         <br /><br />
         <div class="text-center text-light">
-        	Copyright &copy; 2022 KKA School. All rights reserved.
+        	Copyright &copy; 2024 KKA School. All rights reserved.
         </div>
 
     	</div>

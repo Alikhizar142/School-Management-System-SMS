@@ -89,8 +89,8 @@ if (isset($_SESSION['UserID']) && isset($_SESSION['role'])) {
                             <label class="form-label">Class</label>
                             <select name="Class" class="form-select">
                                 <?php foreach ($classes as $class): ?>
-                                    <option value="<?= $class['idClass'] ?>-<?= $class['Section'] ?>">
-                                        <?= $class['idClass'] ?> - <?= $class['name'] ?> - <?= $class['Section'] ?>
+                                    <option value="<?= $class['idClass']?>">
+                                        <?= $class['name'] ?> - <?= $class['Section'] ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>

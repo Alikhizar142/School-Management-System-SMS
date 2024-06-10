@@ -76,7 +76,7 @@ if (isset($_SESSION['UserID']) &&
                     <th scope="row"><?=$i?></th>
                     <td><?=$student['idStudent']?></td>
                     <td>
-                      <a href="student-view.php?idStudent=<?=$student['idStudent']?>">
+                      <a href="student-view.php?student_id=<?=$student['idStudent']?>">
                         <?=$student['student_name']?>
                       </a>
                     </td>

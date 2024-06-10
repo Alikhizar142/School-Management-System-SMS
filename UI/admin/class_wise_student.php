@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 
 if (isset($_SESSION['UserID']) && isset($_SESSION['role'])) {
     if ($_SESSION['role'] == 'Admin') {
-        include 'data/class.php'; // Updated path to include functions file
+        include 'data/class.php';
         include '../DB_connection.php';
 
         $classes = getAllClasses($conn);
@@ -35,37 +35,11 @@ if (isset($_SESSION['UserID']) && isset($_SESSION['role'])) {
                         <select name="class" class="form-control">
                             <?php foreach ($classes as $class) { ?>
                                 <option value="<?= $class['idClass'] ?>">
-                                    <?= $class['name'] ?>
+                                    <?= $class['name'] . '-' . $class['Section'] ?>
                                 </option>
                             <?php } ?>
                         </select>
                     </div>
-                    <?php
-                    // Check if Sections exist in the class table
-                    $hasSections = false;
-                    foreach ($classes as $class) {
-                        if (!empty($class['Section'])) {
-                            $hasSections = true;
-                            break;
-                        }
-                    }
-                    // If Sections exist, display dropdown for Section
-                    if ($hasSections) {
-                        ?>
-                        <div class="mb-3">
-                            <label class="form-label">Section</label>
-                            <select name="Section" class="form-control">
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="C">C</option>
-                            </select>
-                        </div>
-
-                    <?php } else { ?>
-                        <div class="alert alert-danger" role="alert">
-                            No Sections found in the class table.
-                        </div>
-                    <?php } ?>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
 
@@ -80,7 +54,7 @@ if (isset($_SESSION['UserID']) && isset($_SESSION['role'])) {
         </body>
 
         </html>
-    <?php
+        <?php
     } else {
         header("Location: ../login.php");
         exit;

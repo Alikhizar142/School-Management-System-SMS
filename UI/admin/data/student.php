@@ -67,6 +67,7 @@ function getStudentById($id, $conn)
                      p.name AS parent_name,p.email AS parent_email, p.phone_no AS parent_phoneNo, p.CNIC_NO AS parent_cnic, 
                      u.username,
                      c.name AS class_name,
+                     c.Section,
                      GROUP_CONCAT(sub.name SEPARATOR ', ') AS subjects
               FROM student s
               LEFT JOIN parent p ON s.ParentId = p.idParent
@@ -176,17 +177,17 @@ function searchStudents($key, $conn)
 
 
 // new by khizar
-function getStudentsByClass($class_id, $section, $conn)
+function getStudentsByClass($class_id, $conn)
 {
   $sql = "
      SELECT DISTINCT student.*, parent.name AS parent_name, parent.phone_no 
      FROM student
      INNER JOIN registration ON student.idStudent = registration.stdId
      INNER JOIN parent ON student.ParentId = parent.idParent
-     WHERE registration.ClassId = ? AND registration.Section = ?";
+     WHERE registration.ClassId = ?  ORDER BY idStudent";
 
   $stmt = $conn->prepare($sql);
-  $stmt->execute([$class_id, $section]);
+  $stmt->execute([$class_id]);
 
   if ($stmt->rowCount() >= 1) {
     $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -195,6 +196,7 @@ function getStudentsByClass($class_id, $section, $conn)
     return 0;
   }
 }
+
 
 
 function getUserIDByStudentID($student_id, $conn)

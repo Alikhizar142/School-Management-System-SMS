@@ -11,9 +11,7 @@ if (isset($_SESSION['UserID']) && isset($_SESSION['role'])) {
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $class_id = $_POST['class'];
-            $section = $_POST['Section']; // Get section value
-            // echo "Class: $class_id, Section: $sectsion"; // For testing
-            $students = getStudentsByClass($class_id, $section,$conn); // Ensure to pass $conn here
+            $students = getStudentsByClass($class_id, $conn); 
         }
     }
 ?>
@@ -24,6 +22,7 @@ if (isset($_SESSION['UserID']) && isset($_SESSION['role'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Student Search Results</title>
+    <link rel="icon" href="../../logo.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="icon" href="../logo.png">

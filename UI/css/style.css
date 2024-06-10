@@ -1,50 +1,65 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
-.body-home, .body-login {
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+.body-home,
+.body-login {
 	background: url(../img/bg.jpg);
 	background-size: cover;
 	background-attachment: fixed;
 }
-.admin-bg{
+
+.admin-bg {
 	background: url(../img/adminBg.jpg);
 	background-size: cover;
 	/* background-attachment: fixed; */
 }
+
 .black-fill {
-	background: rgba(0,0,0, 0.7);
+	background: rgba(0, 0, 0, 0.7);
 	min-height: 100vh;
 }
+
 #homeNav {
-	background: rgba(255,255,255, 0.5) !important;
+	background: rgba(255, 255, 255, 0.5) !important;
 }
+
 .welcome-text {
 	min-height: 80vh;
 }
+
 .welcome-text img {
 	width: 400px;
 }
+
 .welcome-text h4 {
 	color: #eee;
-	font-size: 51px;
-	font-family: 'Lobster', cursive;
+	font-size: 70px;
+	font-family: "IBM Plex Sans Condensed", sans-serif;
+	font-weight: 700;
+	font-style: normal;
 
 }
+
 .welcome-text p {
 	color: #222;
-	background: rgba(255,255,255, 0.5);
+	background: rgba(255, 255, 255, 0.5);
 	padding: 5px;
 	border-radius: 4px;
 }
+
 #about {
 	min-height: 100vh;
 }
-#about .card-1{
+
+#about .card-1 {
 	max-width: 600px;
 	width: 90%;
-	background: rgba(255,255,255, 0.5);
+	background: rgba(255, 255, 255, 0.5);
 	padding: 20px;
 	border-radius: 5px;
 }
-#about .card-1 h5{
+
+#about .card-1 h5 {
 	font-family: 'Lobster', cursive;
 	font-size: 28px;
 }
@@ -52,17 +67,20 @@
 #contact {
 	min-height: 100vh;
 }
-#contact form{
+
+#contact form {
 	max-width: 600px;
 	width: 90%;
-	background: rgba(255,255,255, 0.5);
+	background: rgba(255, 255, 255, 0.5);
 	padding: 20px;
 	border-radius: 5px;
 }
+
 #contact form h3 {
 	text-align: center;
 	font-family: 'Lobster', cursive;
 }
+
 textarea {
 	resize: none;
 }
@@ -70,25 +88,29 @@ textarea {
 .login {
 	max-width: 500px;
 	width: 90%;
-	background: rgba(255,255,255, 0.5);
+	background: rgba(255, 255, 255, 0.5);
 	padding: 10px;
 	border-radius: 10px;
 }
-.login h3{
+
+.login h3 {
 	text-align: center;
 	font-size: 50px;
 }
+
 .w-450 {
 	width: 450px;
 }
+
 .n-table {
 	max-width: 800px;
 }
+
 .form-w {
 	max-width: 600px;
 	width: 100%;
 }
 
-.text-decoration-none{
+.text-decoration-none {
 	color: black;
 }

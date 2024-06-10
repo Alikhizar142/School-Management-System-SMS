@@ -1,19 +1,16 @@
 <?php 
 session_start();
-if (isset($_SESSION['UserID']) && 
-    isset($_SESSION['role'])) {
-
+if (isset($_SESSION['UserID']) && isset($_SESSION['role'])) {
     if ($_SESSION['role'] == 'Admin') {
-        
         if (isset($_POST['name']) &&
-            isset($_POST['address'])  &&
-            isset($_POST['gender'])   && 
+            isset($_POST['address']) &&
+            isset($_POST['gender']) &&
             isset($_POST['date_of_birth']) &&
-            isset($_POST['parent_name'])  && // Changed from 'parent_name'
+            isset($_POST['parent_name']) &&
             isset($_POST['parent_phone_number']) &&
             isset($_POST['parent_cnic']) &&
             isset($_POST['email_address']) &&
-            isset($_POST['Class']) && // Changed from 'class'
+            isset($_POST['Class']) &&
             isset($_POST['year']) &&
             isset($_POST['subjects']) &&
             isset($_POST['username']) &&
@@ -21,11 +18,11 @@ if (isset($_SESSION['UserID']) &&
 
             include '../../DB_connection.php';
             include "../data/student.php";
-            $name = $_POST['name']; // Changed from 'name'
+            $name = $_POST['name'];
             $address = $_POST['address'];
             $gender = $_POST['gender'];
-            $date_of_birth = $_POST['date_of_birth'];
-            $parent_name = $_POST['parent_name']; // Changed from 'parent_name'
+            $date_of_birth = date('Y-m-d', strtotime($_POST['date_of_birth']));
+            $parent_name = $_POST['parent_name'];
             $parent_phone_number = $_POST['parent_phone_number'];
             $parent_cnic = $_POST['parent_cnic'];
             $email_address = $_POST['email_address'];
@@ -33,12 +30,20 @@ if (isset($_SESSION['UserID']) &&
             $subjects = $_POST['subjects'];
             $username = $_POST['username'];
             $pass = $_POST['pass'];
-            $classData = explode('-', $_POST['Class']);
-            $classId = $classData[0];
-            $section = $classData[1];
-            $date_of_birth = date('Y-m-d', strtotime($_POST['date_of_birth']));
+
+            // Check if Class is set and not empty
+            if (isset($_POST['Class']) && !empty($_POST['Class'])) {
+                $classData = explode('-', $_POST['Class']);
+                $classId = $classData[0]; // Assuming you want the first part of the exploded data
+            } else {
+                $em = "Class is required";
+                header("Location: ../student-add.php?error=$em");
+                exit;
+            }
+
             // Prepare data for passing in URL
             $data = '&name='.$name.'&address='.$address.'&gender='.$gender.'&parent_name='.$parent_name.'&parent_phone_number='.$parent_phone_number.'&parent_cnic='.$parent_cnic.'&email_address='.$email_address.'&Class='.$classId.'&year='.$year.'&username='.$username.'&pass='.$pass;
+            
             if (empty($name) || empty($address) || empty($gender) || empty($date_of_birth) || empty($parent_name) || empty($parent_phone_number) || empty($parent_cnic) || empty($email_address) || empty($classId) || empty($year) || empty($subjects) || empty($username) || empty($pass)) {
                 $em = "All fields are required";
                 header("Location: ../student-add.php?error=$em$data");
@@ -51,7 +56,7 @@ if (isset($_SESSION['UserID']) &&
                     $sqlCheckParent = "SELECT idParent FROM parent WHERE CNIC_NO = ?";
                     $stmtCheckParent = $conn->prepare($sqlCheckParent);
                     $stmtCheckParent->execute([$parent_cnic]);
-                    
+
                     if ($stmtCheckParent->rowCount() > 0) {
                         // Parent CNIC exists, get the parent_id
                         $parentRow = $stmtCheckParent->fetch(PDO::FETCH_ASSOC);
@@ -61,32 +66,30 @@ if (isset($_SESSION['UserID']) &&
                         $sqlParent = "INSERT INTO parent (name, phone_no, CNIC_No, email) VALUES (?,?,?,?)";
                         $stmtParent = $conn->prepare($sqlParent);
                         $stmtParent->execute([$parent_name, $parent_phone_number, $parent_cnic, $email_address]);
-                        
                         $parentId = $conn->lastInsertId(); // Get the last inserted parent ID
                     }
+
                     // Insert into user table
                     $sqlUser = "INSERT INTO user (username, password, role) VALUES (?,?,?)";
                     $stmtUser = $conn->prepare($sqlUser);
                     $stmtUser->execute([$username, $pass, 'Student']);
                     $UserID = $conn->lastInsertId();
+
                     // Insert into student table
-                    $sqlStudent = "INSERT INTO student (name, UserID, Address, Gender, DOB, ParentId) VALUES (?,?,?,?,?,?)"; // Removed the extra comma after ParentId
+                    $sqlStudent = "INSERT INTO student (name, UserID, Address, Gender, DOB, ParentId) VALUES (?,?,?,?,?,?)";
                     $stmtStudent = $conn->prepare($sqlStudent);
                     $stmtStudent->execute([$name, $UserID, $address, $gender, $date_of_birth, $parentId]);
-                    
-                    $studentId = $conn->lastInsertId(); // Get the last inserted student ID
-                    
+                    $studentId = $conn->lastInsertId();
+
                     // Insert into registration table
-                    $sqlRegistration = "INSERT INTO registration (StdId, ClassId, SubID, Section, Session) VALUES (?,?,?,?,?)";
+                    $sqlRegistration = "INSERT INTO registration (StdId, ClassId, SubID, Session) VALUES (?,?,?,?)";
                     $stmtRegistration = $conn->prepare($sqlRegistration);
-                    
+
                     foreach ($subjects as $subject) {
-                        $stmtRegistration->execute([$studentId, $classId, $subject, $section, $year]);
+                        $stmtRegistration->execute([$studentId, $classId, $subject, $year]);
                     }
-                    
-                    
+
                     $conn->commit();
-                    
                     $sm = "New student registered successfully";
                     header("Location: ../student-add.php?success=$sm");
                     exit;
@@ -96,13 +99,11 @@ if (isset($_SESSION['UserID']) &&
                     header("Location: ../student-add.php?error=$em$data");
                     exit;
                 }
-                
-                
             }
         } else {
             $em = "All fields are required";
-            // header("Location: ../student-add.php?error=$em");
-            // exit;
+            header("Location: ../student-add.php?error=$em");
+            exit;
         }
     } else {
         header("Location: ../../logout.php");

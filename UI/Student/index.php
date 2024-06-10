@@ -57,7 +57,6 @@ if (isset($_SESSION['idStudent']) &&
      <?php 
         }else {
            header("Location: student.php");
-          echo "here33";
            exit;
         }
      ?>
@@ -73,13 +72,11 @@ if (isset($_SESSION['idStudent']) &&
 <?php 
 
   }else {
-    echo "here1";
     header("Location: ../login.php");
     exit;
   } 
 }
 else {
-  echo "here2";
 	header("Location: ../login.php");
 	exit;
 } 
